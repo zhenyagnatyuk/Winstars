@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+# Redirect output to stderr.
+exec 1>&2
+
+
+file_new="result_new" #the file where you keep your string name
+file_old="result_old"
+
+value_of_new_model=$(cat "$file_new") 
+value_of_old_model=$(cat "$file_old") 
+
+result=$( echo | awk "BEGIN {if (${value_of_new_model} > ${value_of_old_model}) {print 1;} else {print 0;} }" )
+
+
+if (("$result" == 1)); then
+	echo "$value_of_new_model" > "result_old"
+else
+	cat <<\EOF
+Error: Score lower than previous one.
+EOF
+	exit 1
+fi
