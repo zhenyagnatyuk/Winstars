@@ -1,4 +1,4 @@
-To build enter docker build . --tag name
+To build enter: docker build . --tag name
 
 Also there is already built version by link https://hub.docker.com/r/zhenyagnatyuk/winstars
 
